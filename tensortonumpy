@@ -1,0 +1,8 @@
+import torch
+import numpy as np
+
+t=torch.ones(5)
+t=t.add_(1)
+print(f"t: {t}")
+n=t.numpy()
+print(f"n: {n}")

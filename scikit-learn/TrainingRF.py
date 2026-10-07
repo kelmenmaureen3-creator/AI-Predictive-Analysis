@@ -42,7 +42,7 @@ rf = RandomForestClassifier(random_state=42)
 param_grid = {
     'n_estimators': [50, 100, 200],
     'max_depth': [10, 20, None],
-    'min_samples_split': [2, 5],
+    'min_samples_split': [2, 6],
     'criterion': ['gini', 'entropy']
 }
 
@@ -65,6 +65,6 @@ print("\n================ EVALUATION METRICS ================")
 print(f"Accuracy: {accuracy_score(y_test, y_pred) * 100:.2f}%")
 print("\nClassification Report:\n", classification_report(y_test, y_pred, target_names=['Healthy (0)', 'Faulty (1)']))
 print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
-# Save Serialized Model
+# Save  Model
 joblib.dump(best_model, 'random_forest_motor_model.pkl')
 print(f"\nTrained binary model saved successfully to: random_forest_motor_model.pkl")

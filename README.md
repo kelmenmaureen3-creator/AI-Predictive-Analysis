@@ -52,3 +52,4 @@ Vibration Sensor ───┘                                      │
                                                            │
                                                            ↓
                                                        Dashboard
+                                                       This project uses Git branches for development and testing.

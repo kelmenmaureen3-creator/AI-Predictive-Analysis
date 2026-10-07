@@ -42,7 +42,7 @@ rf = RandomForestClassifier(random_state=42)
 param_grid = {
     'n_estimators': [50, 100, 200],
     'max_depth': [10, 20, None],
-    'min_samples_split': [2, 6],
+    'min_samples_split': [2, 5],
     'criterion': ['gini', 'entropy']
 }
 

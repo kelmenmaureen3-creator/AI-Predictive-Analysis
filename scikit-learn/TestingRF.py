@@ -5,7 +5,7 @@ import joblib
 model = joblib.load("random_forest_motor_model.pkl")
 
 # Load new motor data
-new_data = pd.read_csv("motor_datanew.csv")
+new_data = pd.read_csv("newmotor_data.csv")
 
 # Prepare the data in the same format used during training
 new_data["current"] = new_data["Current"] / 10.0
@@ -21,10 +21,11 @@ predictions = model.predict(X_new)
 # Add predictions to the dataset
 new_data["Prediction"] = predictions
 
-# Convert 0/1 into readable labels
+# Convert 0/1/2 into readable labels
 new_data["Condition"] = new_data["Prediction"].map({
-    0: "Healthy",
-    1: "Faulty"
+    0: "Normal",
+    1: "Moderate",
+    2: "High"
 })
 
 print(new_data)

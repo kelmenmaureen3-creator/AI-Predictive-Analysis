@@ -19,7 +19,7 @@ df['vibration'] = df['Vibration (mm/s)']
 label_map = {
     'normal': 0,     # Healthy
     'moderate': 1,   # Faulty (Warning/Degraded)
-    'high': 1        # Faulty (Critical)
+    'high': 2        # Faulty (Critical)
 }
 
 df['status'] = df['Label'].str.strip().str.lower().map(label_map)
@@ -46,12 +46,12 @@ param_grid = {
     'criterion': ['gini', 'entropy']
 }
 
-print("Training Binary Random Forest Model...")
+print("Training Random Forest Model...")
 grid_search = GridSearchCV(
     estimator=rf,
     param_grid=param_grid,
     cv=5,
-    scoring='f1',
+    scoring='f1_macro',
     n_jobs=-1
 )
 
@@ -63,8 +63,8 @@ y_pred = best_model.predict(X_test)
 
 print("\n================ EVALUATION METRICS ================")
 print(f"Accuracy: {accuracy_score(y_test, y_pred) * 100:.2f}%")
-print("\nClassification Report:\n", classification_report(y_test, y_pred, target_names=['Healthy (0)', 'Faulty (1)']))
+print("\nClassification Report:\n", classification_report(y_test, y_pred, target_names=['Normal (0)', 'Moderate(1)', 'High(2)']))
 print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
 # Save  Model
 joblib.dump(best_model, 'random_forest_motor_model.pkl')
-print(f"\nTrained binary model saved successfully to: random_forest_motor_model.pkl")
+print(f"\nTrained multi-class model saved successfully to: random_forest_motor_model.pkl")

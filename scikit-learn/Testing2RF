@@ -1,0 +1,39 @@
+import pandas as pd
+import joblib
+
+# Load the trained model
+model = joblib.load("random_forest_motor_model2.pkl")
+
+# Load new motor data
+new_data = pd.read_csv("industrial_motor_sensor_data_8000.csv")
+new_data.columns = [c.replace('?C', 'C') for c in new_data.columns]
+
+new_data['current'] = new_data['Current (A)']
+new_data['temperature'] = new_data['Temperature (C)']
+new_data['vibration'] = new_data['Vibration (mm/s)']
+
+# Select the features
+X_new = new_data[["temperature", "current", "vibration"]]
+
+# Make predictions
+predictions = model.predict(X_new)
+
+# Add predictions to the dataset
+new_data["Prediction"] = predictions
+
+# Convert 0/1/2 into readable labels
+new_data["Condition"] = new_data["Prediction"].map({
+    0: "normal",
+    1:"warning",
+    1: "moderate",
+    2: "faulty",
+    2: "fault",
+    2: "high" 
+})
+
+print(new_data)
+
+# Save the results
+new_data.to_csv("motor_predictions2.csv", index=False)
+
+print("\nPredictions saved to motor_predictions2.csv")
